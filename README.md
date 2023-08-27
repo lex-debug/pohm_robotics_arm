@@ -3,3 +3,8 @@ POHM stands for palm oil harvesting machine. This repository contains the algori
 
 ## Table of Contents
 - [Environment](#environment)
+
+## Environment
+- Operating System: Windows or Linux
+- IDE: Jupyter Notebook, VSCode
+- Programming Language: Python
