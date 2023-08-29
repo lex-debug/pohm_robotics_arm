@@ -12,7 +12,7 @@ POHM stands for palm oil harvesting machine. This repository contains the algori
 
 ## How to install Ubuntu 20.04 in a Window OS
 
-# Pre-requisites
+### Pre-requisites
 - Storage: Preferrably 20GB
 
 1. Open the Microsoft Store. You might need an account for the Microsoft Store. Go ahead and register an account or use hotmail.
