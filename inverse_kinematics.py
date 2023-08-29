@@ -32,6 +32,7 @@ class InverseKinematicsNode(Node):
 
         self.logger_.info('Starting Inverse Kinematics node...')
 
+        # load the pretrained anfis network
         self.data_file_path1 = pkg_resources.resource_filename('pohm_robotics_arm', 'data/j1Anf.pickle')
         with open(self.data_file_path1, 'rb') as f:
             self.j1Anf = pickle.load(f)
@@ -62,10 +63,11 @@ class InverseKinematicsNode(Node):
         self.logger_.info('Done')
 
         # Parameters required for calculating the camera transformation
+        # This parameters are only valid for the MRANTI Robot
         self.l0 = 0.658
         self.l0_fixed_angle = 1.9197
         self.l_camera = 0.38
-        self.l_camera_fixed_angle = 1.0472
+        self.l_camera_fixed_angle = 1.0472 # the camera has an offset angle with the ground level
 
         self.c1 = self.l0 * math.cos(self.l0_fixed_angle)
         self.s1 = self.l0 * math.sin(self.l0_fixed_angle)
@@ -75,6 +77,7 @@ class InverseKinematicsNode(Node):
         self.theta_c = 0.0
 
         # Parameters of Robotics Arm
+        # These are obtained from the DataGeneration_MRANTI.ipynb
         self.X_MIN = 0.5142
         self.X_MAX = 1.2251
         self.Y_MIN = 0.6184
@@ -108,9 +111,12 @@ class InverseKinematicsNode(Node):
             if (x < self.X_MIN or x > self.X_MAX) or (y < self.Y_MIN or y > self.Y_MAX):
                 self.logger_.error('The position of the ffb is out of reach by the robotics arm, please move the robotics arm closer or further.')
             else:
+                # normalize the x and y coordinate before putting into the fuzzy inference system
                 x = ((x - self.X_MIN) / (self.X_MAX - self.X_MIN)) * 20.0 - 10.0
                 y = ((y - self.Y_MIN) / (self.Y_MAX - self.Y_MIN)) * 20.0 - 10.0
                 ffb_position_coordinate = np.array([[x, y]])
+                # The reason that the cutting offset is added to the x instead of z is 
+                # because that the chainsaw is placed at an offset distance beside the FFB
                 j0Angle = math.atan2((msg.position.x + self.cutting_offset), msg.position.z)
                 j1Angle = anfis.predict(self.j1Anf, ffb_position_coordinate)[0][0]
                 j2X = anfis.predict(self.j2Anf, ffb_position_coordinate)[0][0]
@@ -135,7 +141,7 @@ class InverseKinematicsNode(Node):
         j1Angle_fb = j1Angle_fb * math.pi / 180.0
         camera_angle_prime = j1Angle_fb + self.l_camera_fixed_angle
 
-        self.c2 = (j2X_fb - 0.3) * math.cos(j1Angle_fb)
+        self.c2 = (j2X_fb - 0.3) * math.cos(j1Angle_fb) # the camera is 0.3m away from the tip of the robotics arm
         self.c3 = self.l_camera * math.cos(camera_angle_prime)
 
         self.s2 = (j2X_fb - 0.3) * math.sin(j1Angle_fb)
@@ -143,7 +149,7 @@ class InverseKinematicsNode(Node):
 
         self.x_c = self.c1 + self.c2 + self.c3
         self.y_c = self.s1 + self.s2 + self.s3 
-        self.theta_c = camera_angle_prime - (math.pi / 2)
+        self.theta_c = camera_angle_prime - (math.pi / 2) # not necessary, but need to recheck again
 
 def main(args=None):
     # Initialize the rclpy library

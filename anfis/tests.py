@@ -46,6 +46,6 @@ X[:, 1] = ((X[:, 1] - x1min) / (x1max - x1min)) * 20.0 -10.0
 
 Y = ts[:,2]
 
-a = [[0, 1, 2, 3], [0, 1, 2, 3]]
-b = all(len())
-
+a = np.array([[0, 1, 2, 3], [0, 1, 2, 3]])
+print(a.shape[1] )
+print(np.zeros((16, 1)))
