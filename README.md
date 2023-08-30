@@ -5,6 +5,8 @@ POHM stands for palm oil harvesting machine. This repository contains the algori
 - [Pre-requisites](#pre-requisites)
 - [Environment](#environment)
 - [How to install Ubuntu 20.04 in a Window OS](#how-to-install-ubuntu-2004-in-a-window-os)
+- [How to install ROS Foxy](#how-to-install-ros-foxy)
+- [Troubleshooting](#troubleshooting)
 
 ### Pre-requisites
 - Storage: Preferrably 20GB
@@ -64,5 +66,58 @@ sudo apt install ros-foxy-desktop
 ```sh
 echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
 ```
+5. Now, you are ready to download this repository and use it.
+
+## Prepare Data for Training
+The anfis network can output the angle of each joint given the desired position after training. Before that, we need to generate the data for training using forward kinematics
+
+1. Navigate to the folder that contains this repository.
+
+```sh
+cd folder/that/contain/pohm_robotics_arm
+```
+
+2. Open the folder using VSCode
+
+```sh
+code .
+```
+
+3. Open the DataGeneration_Ori.ipynb and run each cell by clicking the button (the blue circle) or press Ctrl+Enter
+
+![Jupyter Notebook in VSCode]()
+
+4. Now, you are ready to run the inverse_kinematics.py
+
+```python
+python3 inverse_kinematics.py
+```
+
+## Troubleshooting
+1. If you get the following error during installation of locales
+
+```
+Waiting for cache lock: Could not get lock /var/lib/dpkg/lock. It is held by process 3944
+```
+
+Open the terminal and type the following commang
+
+```sh
+sudo kill -9 3944
+```
+
+2. If you encouter the following error when running the DataGeneration_Ori.ipynb
+
+```
+ModuleNotFoundError: No module named 'zzz'
+```
+
+You can just install the module using pip
+
+```
+pip install zzz
+```
+
+
 
 

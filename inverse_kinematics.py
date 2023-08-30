@@ -16,7 +16,7 @@ import pickle
 import sys
 import math
 
-sys.path.insert(1, '/home/alexpc/dev_ws/src/pohm_robotics_arm/pohm_robotics_arm/anfis/')
+sys.path.insert(1, './anfis/')
 import anfis
 # from .anfis.anfis import *
 
