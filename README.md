@@ -85,7 +85,7 @@ code .
 
 3. Open the DataGeneration_Ori.ipynb and run each cell by clicking the button (the blue circle) or press Ctrl+Enter
 
-![Jupyter Notebook in VSCode]()
+![Jupyter Notebook in VSCode](https://github.com/lex-debug/pohm_robotics_arm/blob/main/img/Screenshot2023-08-30165219.png)
 
 4. Now, you are ready to run the inverse_kinematics.py
 
