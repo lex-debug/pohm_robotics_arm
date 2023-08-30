@@ -25,5 +25,7 @@ POHM stands for palm oil harvesting machine. This repository contains the algori
 
 ## How to install ROS Foxy
 1. Type this command inside the terminal window:
-locale.sh
+'''sh
+locale
+'''
 
