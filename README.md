@@ -24,8 +24,45 @@ POHM stands for palm oil harvesting machine. This repository contains the algori
 ![Ubuntu on Window](https://github.com/lex-debug/pohm_robotics_arm/blob/main/Screenshot2023-08-29155022.png)
 
 ## How to install ROS Foxy
-1. Type this command inside the terminal window:
+1. Copy and paste this command inside the terminal window:
 ```sh
 locale
 ```
+```sh
+sudo apt update && sudo apt install locales
+```
+```sh
+sudo locale-gen en_US en_US.UTF-8
+```
+```sh
+sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+```
+```sh
+export LANG=en_US.UTF-8
+```
+```sh
+locale
+```
+2. Add the ROS2 Repositories
+```sh
+sudo apt update && sudo apt install curl gnupg2 lsb-release
+```
+```sh
+curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+```
+```sh
+sudo sh -c 'echo "deb [arch=$(dpkg --print-architecture)] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" > /etc/apt/sources.list.d/ros2-latest.list'
+```
+3. Install the ROS 2 Packages
+```sh
+sudo apt update
+```
+```sh
+sudo apt install ros-foxy-desktop
+```
+4. Set up the Environment Variables
+```sh
+echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
+```
+
 
